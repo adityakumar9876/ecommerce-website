@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ShopEase - Online Shopping</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f5f5f5;
+            color: #232323;
+        }
+        /* Navbar */
+        .navbar {
+            background: #232f3e;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff9900;
+            letter-spacing: 2px;
+        }
+        .navbar .menu {
+            display: flex;
+            gap: 2rem;
+        }
+        .navbar .menu a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 1.1rem;
+            transition: color 0.2s;
+        }
+        .navbar .menu a:hover {
+            color: #ff9900;
+        }
+        .navbar .profile {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        .navbar .profile img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 2px solid #ff9900;
+        }
+        /* Hero Section */
+        .hero {
+            background: url('https://images.unsplash.com/photo-1515168833906-c8d3df1c46c4?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;
+            padding: 6rem 2rem 3rem 2rem;
+            text-align: center;
+            color: #fff;
+            position: relative;
+        }
+        .hero::after {
+            content: '';
+            display: block;
+            position: absolute;
+            top:0; left:0; right:0; bottom:0;
+            background: rgba(35,47,62,0.7);
+            z-index: 0;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #ff9900;
+        }
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+        }
+        .search-bar {
+            width: 100%;
+            max-width: 500px;
+            margin: 2rem auto 0 auto;
+            display: flex;
+        }
+        .search-bar input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+        }
+        .search-bar button {
+            background: #ff9900;
+            color: #fff;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+        .search-bar button:hover {
+            background: #d97c00;
+        }
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .section-title {
+            font-size: 2rem;
+            color: #ff9900;
+            margin: 2rem 0 1rem 0;
+        }
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .product-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s;
+        }
+        .product-card:hover {
+            transform: translateY(-6px) scale(1.03);
+        }
+        .product-image {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            background: #f7f7f7;
+        }
+        .product-info {
+            padding: 1rem;
+            flex-grow: 1;
+        }
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #232323;
+        }
+        .product-meta {
+            font-size: 0.95rem;
+            color: #777;
+            margin: 0.2rem 0 0.7rem 0;
+        }
+        .product-desc {
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 0.8rem;
+        }
+        .product-price {
+            font-size: 1.1rem;
+            color: #ff9900;
+            font-weight: bold;
+            margin-bottom: 0.8rem;
+        }
+        .buy-btn {
+            background: #ff9900;
+            color: #fff;
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+            transition: background 0.2s;
+        }
+        .buy-btn:hover {
+            background: #d97c00;
+        }
+        /* Sidebar */
+        .sidebar {
+            background: #fff;
+            padding: 2rem 1.2rem;
+            border-radius: 10px;
+            width: 250px;
+            min-width: 220px;
+            margin-right: 2rem;
+            height: fit-content;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.09);
+        }
+        .sidebar h3 {
+            color: #ff9900;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+        .sidebar ul {
+            list-style: none;
+        }
+        .sidebar ul li {
+            margin-bottom: 1.1rem;
+        }
+        .sidebar ul li a {
+            color: #232323;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+        .sidebar ul li a:hover {
+            color: #ff9900;
+        }
+        /* Layout */
+        .main-flex {
+            display: flex;
+            gap: 2rem;
+        }
+        /* Table (Order Summary) */
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+        .orders-table th, .orders-table td {
+            padding: 0.8rem 1rem;
+            border: 1px solid #eee;
+            text-align: left;
+        }
+        .orders-table th {
+            background: #f7f7f7;
+            color: #ff9900;
+        }
+        .orders-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        /* Footer */
+        .footer {
+            background: #232f3e;
+            color: #eee;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+        }
+        /* Responsive */
+        @media (max-width: 900px) {
+            .main-flex { flex-direction: column; }
+            .sidebar { width: 100%; margin: 0 0 2rem 0; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">ShopEase</div>
+        <div class="menu">
+            <a href="#">Home</a>
+            <a href="#">Categories</a>
+            <a href="#">Deals</a>
+            <a href="#">Cart</a>
+            <a href="#">Orders</a>
+            <a href="#">Contact</a>
+            <a href="#">About</a>
+        </div>
+        <div class="profile">
+            <span>Hi, Shopper</span>
+            
+        </div>
+    </nav>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Discover Amazing Products Online</h1>
+            <p>Your one-stop shop for electronics, fashion, home essentials & more. Shop the best deals every day!</p>
+            <form class="search-bar">
+                <input type="text" placeholder="Search for products, brands...">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    </section>
+    <div class="container main-flex">
+        <aside class="sidebar">
+            <h3>Quick Menu</h3>
+            <ul>
+                <li><a href="#">My Account</a></li>
+                <li><a href="#">Wishlist</a></li>
+                <li><a href="#">Cart</a></li>
+                <li><a href="#">Order History</a></li>
+                <li><a href="#">Gift Cards</a></li>
+                <li><a href="#">Support</a></li>
+            </ul>
+            <h3>Categories</h3>
+            <ul>
+                <li><a href="#">Electronics</a></li>
+                <li><a href="#">Fashion</a></li>
+                <li><a href="#">Home & Kitchen</a></li>
+                <li><a href="#">Beauty</a></li>
+                <li><a href="#">Books</a></li>
+                <li><a href="#">Toys & Games</a></li>
+                <li><a href="#">Groceries</a></li>
+            </ul>
+        </aside>
+        <main style="flex: 1;">
+            <h2 class="section-title">Featured Products</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80" class="product-image" alt="Headphones">
+                    <div class="product-info">
+                        <div class="product-title">Wireless Headphones</div>
+                        <div class="product-meta">Electronics</div>
+                        <div class="product-desc">Experience true wireless freedom with crystal-clear sound and powerful bass.</div>
+                        <div class="product-price">$79.99</div>
+                        <button class="buy-btn">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=600&q=80" class="product-image" alt="Sneakers">
+                    <div class="product-info">
+                        <div class="product-title">Classic Sneakers</div>
+                        <div class="product-meta">Fashion</div>
+                        <div class="product-desc">Stylish and comfortable sneakers perfect for everyday wear.</div>
+                        <div class="product-price">$49.50</div>
+                        <button class="buy-btn">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80" class="product-image" alt="Wrist Watch">
+                    <div class="product-info">
+                        <div class="product-title">Analog Wrist Watch</div>
+                        <div class="product-meta">Accessories</div>
+                        <div class="product-desc">Elegant wrist watch with leather strap and water resistance.</div>
+                        <div class="product-price">$129.00</div>
+                        <button class="buy-btn">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80" class="product-image" alt="Backpack">
+                    <div class="product-info">
+                        <div class="product-title">Laptop Backpack</div>
+                        <div class="product-meta">Bags</div>
+                        <div class="product-desc">Spacious and durable backpack suitable for laptops up to 15.6".</div>
+                        <div class="product-price">$39.90</div>
+                        <button class="buy-btn">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80" class="product-image" alt="Sofa">
+                    <div class="product-info">
+                        <div class="product-title">Modern Sofa</div>
+                        <div class="product-meta">Home & Living</div>
+                        <div class="product-desc">Comfortable 3-seater sofa with a minimalist design for your living room.</div>
+                        <div class="product-price">$349.99</div>
+                        <button class="buy-btn">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1526178613658-3f1622045544?auto=format&fit=crop&w=600&q=80" class="product-image" alt="Book">
+                    <div class="product-info">
+                        <div class="product-title">Mystery Novel</div>
+                        <div class="product-meta">Books</div>
+                        <div class="product-desc">A gripping mystery novel that will keep you hooked till the last page.</div>
+                        <div class="product-price">$12.75</div>
+                        <button class="buy-btn">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            <h2 class="section-title">Recent Orders</h2>
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>Order #</th>
+                        <th>Product</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#1001</td>
+                        <td>Wireless Headphones</td>
+                        <td>2025-07-03</td>
+                        <td>Shipped</td>
+                        <td>$79.99</td>
+                    </tr>
+                    <tr>
+                        <td>#1000</td>
+                        <td>Modern Sofa</td>
+                        <td>2025-07-02</td>
+                        <td>Delivered</td>
+                        <td>$349.99</td>
+                    </tr>
+                    <tr>
+                        <td>#0999</td>
+                        <td>Classic Sneakers</td>
+                        <td>2025-07-01</td>
+                        <td>Processing</td>
+                        <td>$49.50</td>
+                    </tr>
+                    <tr>
+                        <td>#0998</td>
+                        <td>Analog Wrist Watch</td>
+                        <td>2025-07-01</td>
+                        <td>Delivered</td>
+                        <td>$129.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </main>
+    </div>
+    <footer class="footer">
+        &copy; 2025 ShopEase. All Rights Reserved. | <a href="#" style="color:#ff9900;">Terms</a> | <a href="#" style="color:#ff9900;">Privacy</a> | <a href="#" style="color:#ff9900;">Contact Support</a>
+    </footer>
+</body>
+</html>
